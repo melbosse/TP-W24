@@ -1,0 +1,102 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<TpW24_MelinaSofia.ViewModels.SujetMsg>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="d-flex justify-content-center">Sujets </h1>
+@if(Model.Count() > 0 )
+{
+     <p>
+         <a asp-action="Create" asp-route-id="@Model.FirstOrDefault().CatId">Create New</a>
+     </p>
+     <table class="table">
+         <thead>
+             <tr>
+                 <th>
+                     Auteur
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.Titre)
+                 </th>
+                 <th>
+                     @Html.DisplayNameFor(model => model.Texte)
+                 </th>
+                 <th>
+                     Créé le
+                 </th>
+                 <th>
+                     Dernier Message le
+                 </th>
+                 <th>
+                     Dernier Message par
+                 </th>
+                 <th>
+                     Message(s)
+                 </th>
+     
+                 <th>
+                     @Html.DisplayNameFor(model => model.Vues)
+                 </th>
+                 <th></th>
+             </tr>
+         </thead>
+         <tbody>
+             @foreach (var item in Model)
+             {
+                 <tr>
+                     <td>
+                         @Html.DisplayFor(modelItem=> item.UserName.UserName)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Titre)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Texte)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Date)
+                     </td>
+     
+                     <td>
+                        @Html.DisplayFor(modelItem => item.DernierMsg.Date)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.DernierMsg.User.UserName)
+                     </td>
+                     <td>
+                         @Html.DisplayFor(modelItem => item.TotalMessages)
+                     </td>
+     
+                     <td>
+                         @Html.DisplayFor(modelItem => item.Vues)
+                     </td>
+                     <td>
+                         <a class="btn btn-primary" asp-controller="Messages" asp-action="index" asp-route-id="@item.SujetId">Afficher les Messages</a>
+                     </td>
+     
+                     <td>
+                 
+
+                        @if ((User.FindFirstValue(ClaimTypes.NameIdentifier) == item.UserId) || (User.IsInRole("Admin")))
+                        {
+                            
+                            <a asp-action="Edit" asp-route-id="@item.SujetId">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.SujetId">Delete</a>
+                        }                         
+                        <a asp-action="Details" asp-route-id="@item.SujetId">Details</a> 
+                        
+                     </td>
+                 </tr>
+     
+     
+     
+             }
+         </tbody>
+
+        <a class="btn btn-primary" asp-controller="Home" asp-action="index" asp-route-id="">Retour</a>
+     </table>
+}
+
+

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<TpW24_MelinaSofia.ViewModels.HomeCat>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class ="row d-flex justify-content-around"> 
+        @foreach(var item in Model)
+        {                          
+                @if (@item.Actif == true)
+                {
+                     <div class="card mt-5" style="width: 18rem;">
+                            <div class="card-body">
+
+                                 <h5 class="card-title ">@item.Nom</h5>
+                                 <h6 class="card-subtitle mb-2 text-muted">Nombre de sujets: @item.TotalSujets </h6>
+                                 <p class="card-text ">@item.Description</p>
+                                 @if (@item.CatId == 1)
+                                 {
+                                     <img class=" card-img " src="~/assets/img/Films.jpg" alt="Card image">
+                                 }
+                                 @if (@item.CatId == 2)
+                                 {
+                                     <img class=" card-img " src="~/assets/img/Series.jpg" alt="Card image">
+                                 }
+                                 @if (@item.CatId == 3)
+                                 {
+                                     <img class=" card-img  " src="~/assets/img/Anim.jpg" alt="Card image">
+                                 }
+                                 @if (@item.CatId == 4)
+                                 {
+                                     <img class=" card-img " src="~/assets/img/Educ.jpg" alt="Card image">
+                                 }
+                                 @if (@item.CatId == 5)
+                                 {
+                                     <img class=" card-img " src="~/assets/img/Doc.webp" alt="Card image">
+                                                              
+                                 }
+
+                     
+
+                         <a class="btn btn-primary  " asp-controller="Categories" asp-action="details" asp-route-id="@item.CatId">Details</a>
+                         <a class="btn btn-primary align-items-end " asp-controller="Sujets" asp-action="index" asp-route-id="@item.CatId">Sujets</a>
+
+                        </div>
+
+                   </div>
+
+                }
+
+        }
+
+ </div>

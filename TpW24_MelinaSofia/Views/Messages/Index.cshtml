@@ -1,0 +1,94 @@
+﻿@using System.Security.Claims;
+@using TpW24_MelinaSofia.Tools;
+@model PaginatedList<TpW24_MelinaSofia.Models.Message>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class ="d-flex justify-content-center">Messages</h1>
+
+<p>
+    <a asp-action="Create" asp-route-id="@Model.FirstOrDefault().SujetId">Create New</a>
+</p>
+
+<div>
+    <h8> Per Page: </h8>
+    <a asp-action="Index" asp-route-custPageSize="1">1</a>
+    <a asp-action="Index" asp-route-custPageSize="5">5</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+               Auteur
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.First().Date)
+            </th>
+            <th>
+                Message
+            </th>       
+            <th>
+                @Html.DisplayNameFor(model => model.First().Sujet)
+            </th>      
+            <th>
+               Description
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Texte)
+            </td>          
+          
+            <td>
+                @Html.DisplayFor(modelItem => item.Sujet.SujetId)
+            </td>
+            <td>
+                @Html.Raw(item.Description)
+            </td>
+            <td>
+                    @if ((User.FindFirstValue(ClaimTypes.NameIdentifier) == item.UserId) || (User.IsInRole("Admin")))                   
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.MsgId">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.MsgId">Delete</a> 
+                    }               
+                    <a asp-action="Details" asp-route-id="@item.MsgId">Details</a> 
+            </td>
+        </tr>
+}
+    </tbody>
+    <a class="btn btn-primary" asp-controller="Sujets" asp-action="Index" asp-route-id="@ViewData["CatId"]">Retour</a>
+</table>
+
+@*Display Code*@
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : ""; 
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+@*Navigation*@
+
+@*First*@
+<a class="btn btn-primary @prevDisabled" asp-controller="Messages" asp-action="Index" asp-route-pageNumber="1" asp-route-cusPageSize="@ViewData[" custPageSize"]"> First </a>
+@*Previous*@
+<a class="btn btn-primary @prevDisabled " asp-controller="Messages" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex-1)" asp-route-cusPageSize="@ViewData[" custPageSize"]"> Prev </a>
+@*Current*@
+<a class="btn btn-primary disabled "> @Model.PageIndex / @Model.TotalPages </a>
+@*Next*@
+<a class="btn btn-primary @nextDisabled " asp-controller="Messages" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex+1)" asp-route-cusPageSize="@ViewData["custPageSize"]"> Next</a>
+@*Last*@
+<a class="btn btn-primary @nextDisabled" asp-controller="Messages" asp-action="Index" asp-route-pageNumber="@Model.TotalPages" asp-route-cusPageSize="@ViewData["custPageSize"]"> Last </a>
+

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<TpW24_MelinaSofia.ViewModels.ListeUser>
+
+@{
+    ViewData["Title"] = "ListeUser";
+}
+
+<h1 class="text-center">Liste des usagers</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Auteur
+            </th>
+            <th>
+                Nombre de sujets
+            </th>
+            <th>
+               Nombre de messages
+            </th>
+        
+            <th>
+                Date du dernier message
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalSujets)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalMsg)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateLastAction)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
